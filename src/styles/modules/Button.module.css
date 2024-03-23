@@ -1,0 +1,47 @@
+.btn {
+  @apply font-medium inline-flex items-center justify-center border border-transparent min-w-max leading-snug transition duration-150 ease-in-out;
+}
+
+.primary {
+  @apply text-white bg-sunglow-500 hover:bg-sunglow-600;
+}
+
+.secondary {
+  @apply text-white bg-slate-900 hover:bg-slate-800;
+}
+
+.light {
+  @apply text-slate-600 bg-white border border-slate-200 hover:border-slate-300;
+}
+
+.round-sm {
+  @apply rounded-sm;
+}
+
+.round-md {
+  @apply rounded;
+}
+
+.round-full {
+  @apply rounded-full;
+}
+
+.xs {
+  @apply px-2 py-0.5 text-sm;
+}
+
+.sm {
+  @apply px-3 py-1 text-sm;
+}
+
+.md {
+  @apply px-3 py-2 text-sm;
+}
+
+.lg {
+  @apply px-4 py-3 text-sm;
+}
+
+.xl {
+  @apply px-6 py-2 md:px-8 md:py-3 shadow-lg;
+}

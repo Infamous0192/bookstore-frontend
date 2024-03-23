@@ -1,0 +1,26 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&display=fallback");
+
+@tailwind base;
+@tailwind components;
+
+// Additional styles
+@import "additional-styles/utility.scss";
+@import "additional-styles/range-slider.scss";
+@import "additional-styles/toggle-switch.scss";
+@import "additional-styles/theme.scss";
+
+@layer utilities {
+  .rtl {
+    direction: rtl;
+  }
+}
+
+[x-cloak] {
+  display: none;
+}
+
+img {
+  image-rendering: -webkit-optimize-contrast;
+}
+
+@tailwind utilities;
