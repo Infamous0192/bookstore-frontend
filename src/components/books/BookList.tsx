@@ -1,5 +1,5 @@
 import { useAddCollection, useBooks, useInfiniteBooks } from "@/api";
-import { Book } from "@/types/book";
+import { Book, BookQuery } from "@/types/book";
 import { useAuth } from "@/hooks/auth";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo } from "react";
@@ -103,10 +103,14 @@ const BookItem: React.FC<Book> = (book) => {
   );
 };
 
-export const BookList: React.FC = () => {
+type Props = {
+  params?: BookQuery;
+};
+
+export const BookList: React.FC<Props> = ({ params }) => {
   const { ref, inView } = useInView();
   const { data, isFetching, hasNextPage, fetchNextPage } = useInfiniteBooks({
-    params: { limit: 8 },
+    params: { limit: 8, ...params },
   });
 
   useEffect(() => {
@@ -136,7 +140,12 @@ export const BookList: React.FC = () => {
       )}
 
       {isFetching ? (
-        <div className="text-center">Loading...</div>
+        <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-x-4 gap-y-6">
+          <BookSkeleton />
+          <BookSkeleton />
+          <BookSkeleton />
+          <BookSkeleton />
+        </div>
       ) : (
         hasNextPage && (
           <div ref={ref} className="text-center">
