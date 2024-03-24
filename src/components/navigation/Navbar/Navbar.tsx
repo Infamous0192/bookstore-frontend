@@ -69,13 +69,9 @@ export const Navbar: React.FC = () => {
                 <div className="ml-4 flex items-center md:ml-6">
                   {creds != null ? (
                     <>
-                      <button
-                        type="button"
-                        className="p-1 rounded-full text-slate-500 hover:text-slate-700"
-                      >
-                        <span className="sr-only">View notifications</span>
-                        <IconBell className="h-6 w-6" aria-hidden="true" />
-                      </button>
+                      <div className="text-sm flex items-center mr-2">
+                        Your Point {creds.point}
+                      </div>
                       <Menu as="div" className="ml-3 relative">
                         <div>
                           <Menu.Button className="max-w-xs rounded-full flex items-center text-sm">
@@ -224,13 +220,9 @@ export const Navbar: React.FC = () => {
                           {creds?.username}
                         </div>
                       </div>
-                      <button
-                        type="button"
-                        className="ml-auto flex-shrink-0 p-1 rounded-full text-slate-600 hover:text-slate-900"
-                      >
-                        <span className="sr-only">View notifications</span>
-                        <IconBell className="h-6 w-6" aria-hidden="true" />
-                      </button>
+                      <div className="ml-auto text-sm flex items-center mr-2">
+                        Your Point {creds.point}
+                      </div>
                     </div>
                     <div className="mt-3 px-2 space-y-1">
                       <button

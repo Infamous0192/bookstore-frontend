@@ -4,29 +4,29 @@ import { axios } from "@/lib/axios";
 import { MutationConfig, queryClient } from "@/lib/react-query";
 import storage from "@/utils/storage";
 
-import { Authenticated, LoginDTO } from "../types/auth";
+import { Authenticated, RegisterDTO } from "../types/auth";
 import { GeneralResponse } from "@/types/api";
 
-type LoginRequest = {
-  data: LoginDTO;
+type RegisterRequest = {
+  data: RegisterDTO;
 };
 
-export async function login({ data }: LoginRequest) {
+export async function register({ data }: RegisterRequest) {
   const res = await axios.post<GeneralResponse<Authenticated>>(
-    "/auth/login",
+    "/auth/register",
     data
   );
 
   return res.data.result!;
 }
 
-type UseLoginOption = {
-  config?: MutationConfig<typeof login>;
+type UseRegisterOption = {
+  config?: MutationConfig<typeof register>;
 };
 
-export function useLogin({ config }: UseLoginOption = {}) {
+export function useRegister({ config }: UseRegisterOption = {}) {
   return useMutation({
-    mutationFn: login,
+    mutationFn: register,
     onSuccess: ({ creds, token }) => {
       queryClient.setQueryData(["creds"], creds);
       storage.setToken(token);

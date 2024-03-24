@@ -5,6 +5,7 @@ export type Creds = {
   username: string;
   name: string;
   role: string;
+  point: number;
 };
 
 export type User = {
@@ -15,6 +16,12 @@ export type User = {
 } & BaseEntity;
 
 export type LoginDTO = {
+  username: string;
+  password: string;
+};
+
+export type RegisterDTO = {
+  name: string;
   username: string;
   password: string;
 };
