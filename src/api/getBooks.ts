@@ -1,4 +1,8 @@
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import {
+  keepPreviousData,
+  useInfiniteQuery,
+  useQuery,
+} from "@tanstack/react-query";
 
 import { axios } from "@/lib/axios";
 import { ExtractFnReturnType, QueryConfig } from "@/lib/react-query";
@@ -29,5 +33,18 @@ export function useBooks({ config, params }: UseBooksOptions = {}) {
     queryKey: ["books", params],
     queryFn: () => getBooks({ params }),
     placeholderData: keepPreviousData,
+  });
+}
+
+export function useInfiniteBooks({ params }: UseBooksOptions = {}) {
+  return useInfiniteQuery({
+    initialPageParam: 1,
+    queryKey: ["books", params],
+    queryFn: ({ pageParam: page = 1 }) =>
+      getBooks({ params: { ...params, page } }),
+    getNextPageParam: ({ metadata }) =>
+      metadata.hasNext ? metadata.page + 1 : undefined,
+    getPreviousPageParam: ({ metadata }) =>
+      metadata.hasPrev ? metadata.page - 1 : undefined,
   });
 }

@@ -1,3 +1,4 @@
+import { Book } from "./book";
 import { BaseEntity } from "./entity";
 
 export type Creds = {
@@ -6,6 +7,7 @@ export type Creds = {
   name: string;
   role: string;
   point: number;
+  books: Book[];
 };
 
 export type User = {
