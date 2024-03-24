@@ -14,12 +14,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <AppProvider>
-      <html lang="en">
-        <body className="font-inter antialiased bg-slate-50 text-slate-900 tracking-tight">
-          {children}
-        </body>
-      </html>
-    </AppProvider>
+    <html lang="en">
+      <body className="font-inter antialiased bg-slate-50 text-slate-900 tracking-tight">
+        <AppProvider>{children}</AppProvider>
+      </body>
+    </html>
   );
 }

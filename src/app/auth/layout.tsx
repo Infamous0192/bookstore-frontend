@@ -1,24 +1,22 @@
 "use client";
 
 import { useAuth } from "@/hooks/auth";
-import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
-type Props = {
+export default function AuthLayout({
+  children,
+}: Readonly<{
   children: React.ReactNode;
-};
-
-export const AuthLayout: React.FC<Props> = ({ children }) => {
-  const router = useRouter();
+}>) {
   const { creds } = useAuth();
+  const router = useRouter();
 
   useEffect(() => {
     if (!creds) return;
 
     router.replace("/");
-  }, [creds, router]);
+  }, [router, creds]);
 
   if (creds) return null;
 
@@ -36,4 +34,4 @@ export const AuthLayout: React.FC<Props> = ({ children }) => {
       </div>
     </div>
   );
-};
+}

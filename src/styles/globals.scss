@@ -2,25 +2,10 @@
 
 @tailwind base;
 @tailwind components;
+@tailwind utilities;
 
 // Additional styles
-@import "additional-styles/utility.scss";
-@import "additional-styles/range-slider.scss";
-@import "additional-styles/toggle-switch.scss";
-@import "additional-styles/theme.scss";
-
-@layer utilities {
-  .rtl {
-    direction: rtl;
-  }
-}
-
-[x-cloak] {
-  display: none;
-}
-
-img {
-  image-rendering: -webkit-optimize-contrast;
-}
-
-@tailwind utilities;
+// @import "additional-styles/utility.scss";
+// @import "additional-styles/range-slider.scss";
+// @import "additional-styles/toggle-switch.scss";
+// @import "additional-styles/theme.scss";

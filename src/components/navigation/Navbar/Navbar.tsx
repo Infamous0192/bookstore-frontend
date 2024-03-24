@@ -7,25 +7,13 @@ import Image from "next/image";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Button } from "@/components/elements";
 import Link from "next/link";
-import { IconBell, IconMenu, IconX } from "@tabler/icons-react";
-
-const navigation = [
-  { name: "Home", href: "/", current: true },
-  { name: "Kelas", href: "/kelas", current: false },
-  { name: "Event", href: "#", current: false },
-  { name: "Bootcamp", href: "#", current: false },
-];
+import { IconBell, IconMenu2, IconX } from "@tabler/icons-react";
+import { useAuth } from "@/hooks/auth";
 
 export const Navbar: React.FC = () => {
   const [top, setTop] = useState(true);
   const router = useRouter();
-  const state = {
-    creds: {
-      email: "infamous0192@gmail.com",
-      username: "infamous0192@gmail.com",
-    },
-    isAuthenticated: false,
-  };
+  const { creds, logout } = useAuth();
 
   // detect whether user has scrolled the page down by 10px
   useEffect(() => {
@@ -36,8 +24,9 @@ export const Navbar: React.FC = () => {
     return () => window.removeEventListener("scroll", scrollHandler);
   }, [top]);
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     // dispatch({ type: 'LOGOUT' })
+    await logout();
     router.push("/");
   };
 
@@ -57,22 +46,28 @@ export const Navbar: React.FC = () => {
               <div className="flex items-center">
                 <div className="hidden md:block">
                   <div className="ml-10 flex items-baseline space-x-4">
-                    {navigation.map((item) => (
-                      <Link
-                        key={item.name}
-                        href={item.href}
-                        className="font-medium text-slate-600 hover:text-slate-900 px-3 py-2 rounded-md text-sm"
-                        aria-current={item.current ? "page" : undefined}
-                      >
-                        {item.name}
-                      </Link>
-                    ))}
+                    <Link
+                      href="/"
+                      className="font-medium text-slate-600 hover:text-slate-900 px-3 py-2 rounded-md text-sm"
+                    >
+                      Home
+                    </Link>
+                    {creds != null && (
+                      <>
+                        <Link
+                          href="/collection"
+                          className="font-medium text-slate-600 hover:text-slate-900 px-3 py-2 rounded-md text-sm"
+                        >
+                          Your Collection
+                        </Link>
+                      </>
+                    )}
                   </div>
                 </div>
               </div>
               <div className="hidden md:block">
                 <div className="ml-4 flex items-center md:ml-6">
-                  {state.isAuthenticated ? (
+                  {creds != null ? (
                     <>
                       <button
                         type="button"
@@ -85,7 +80,7 @@ export const Navbar: React.FC = () => {
                         <div>
                           <Menu.Button className="max-w-xs rounded-full flex items-center text-sm">
                             <span className="sr-only">Open user menu</span>
-                            <Image
+                            <img
                               className="h-8 w-8 rounded-full"
                               width={32}
                               height={32}
@@ -112,19 +107,7 @@ export const Navbar: React.FC = () => {
                                     active && "bg-slate-100"
                                   } block px-4 py-2 text-sm text-slate-900`}
                                 >
-                                  Go to Dashboard
-                                </Link>
-                              )}
-                            </Menu.Item>
-                            <Menu.Item>
-                              {({ active }) => (
-                                <Link
-                                  href="/profile"
-                                  className={`${
-                                    active && "bg-slate-100"
-                                  } block px-4 py-2 text-sm text-slate-900`}
-                                >
-                                  Settings
+                                  Check your Collection
                                 </Link>
                               )}
                             </Menu.Item>
@@ -147,14 +130,14 @@ export const Navbar: React.FC = () => {
                   ) : (
                     <>
                       <Link
-                        href="/masuk"
+                        href="/auth/login"
                         className="whitespace-nowrap text-base font-medium text-slate-600 hover:text-slate-900"
                       >
-                        Masuk
+                        Login
                       </Link>
-                      <Link href="/Daftar">
+                      <Link href="/auth/register">
                         <Button color="secondary" size="md" className="ml-8">
-                          Daftar
+                          Register
                         </Button>
                       </Link>
                     </>
@@ -168,7 +151,7 @@ export const Navbar: React.FC = () => {
                   {open ? (
                     <IconX className="block h-6 w-6" aria-hidden="true" />
                   ) : (
-                    <IconMenu className="block h-6 w-6" aria-hidden="true" />
+                    <IconMenu2 className="block h-6 w-6" aria-hidden="true" />
                   )}
                 </Disclosure.Button>
               </div>
@@ -186,33 +169,38 @@ export const Navbar: React.FC = () => {
           >
             <Disclosure.Panel className="md:hidden">
               <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                {navigation.map((item) => (
+                <Disclosure.Button
+                  as={Link}
+                  href="/home"
+                  className="text-slate-600 text-sm hover:text-slate-900 hover:bg-slate-100 rounded block px-3 py-2"
+                >
+                  Home
+                </Disclosure.Button>
+                {creds && (
                   <Disclosure.Button
-                    key={item.name}
-                    as="a"
-                    href={item.href}
+                    as={Link}
+                    href="/collection"
                     className="text-slate-600 text-sm hover:text-slate-900 hover:bg-slate-100 rounded block px-3 py-2"
-                    aria-current={item.current ? "page" : undefined}
                   >
-                    {item.name}
+                    Your collection
                   </Disclosure.Button>
-                ))}
+                )}
               </div>
               <div className="pt-4 pb-3 border-t border-slate-300">
-                {!state.isAuthenticated ? (
+                {!creds ? (
                   <div className="px-5">
-                    <Link href="/Daftar">
+                    <Link href="/auth/register">
                       <Button size="md" color="secondary" className="w-full">
-                        Daftar
+                        Register
                       </Button>
                     </Link>
                     <p className="mt-4 text-center text-sm text-slate-500">
-                      Sudah terdaftar?{" "}
+                      Already have account?{" "}
                       <Link
-                        href="/masuk"
+                        href="/auth/login"
                         className="text-sunglow-600 hover:text-sunglow-500"
                       >
-                        Masuk
+                        Login
                       </Link>
                     </p>
                   </div>
@@ -220,7 +208,7 @@ export const Navbar: React.FC = () => {
                   <>
                     <div className="flex items-center px-5">
                       <div className="flex-shrink-0">
-                        <Image
+                        <img
                           width={40}
                           height={40}
                           className="h-10 w-10 rounded-full"
@@ -230,10 +218,10 @@ export const Navbar: React.FC = () => {
                       </div>
                       <div className="ml-3">
                         <div className="font-medium text-slate-900">
-                          {state.creds?.username}
+                          {creds?.name}
                         </div>
                         <div className="text-sm text-slate-600">
-                          {state.creds?.email}
+                          {creds?.username}
                         </div>
                       </div>
                       <button
@@ -245,20 +233,6 @@ export const Navbar: React.FC = () => {
                       </button>
                     </div>
                     <div className="mt-3 px-2 space-y-1">
-                      <Disclosure.Button
-                        as={Link}
-                        href="/member"
-                        className="text-slate-600 text-sm hover:text-slate-900 hover:bg-slate-100 rounded block px-3 py-2"
-                      >
-                        Dashboard
-                      </Disclosure.Button>
-                      <Disclosure.Button
-                        as={Link}
-                        href="/profile"
-                        className="text-slate-600 text-sm hover:text-slate-900 hover:bg-slate-100 rounded block px-3 py-2"
-                      >
-                        Settings
-                      </Disclosure.Button>
                       <button
                         onClick={handleLogout}
                         className="text-slate-600 text-sm hover:text-slate-900 hover:bg-slate-100 w-full text-left rounded block px-3 py-2"
