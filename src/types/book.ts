@@ -18,5 +18,5 @@ export type BookQuery = {
   order?: string;
   keyword?: string;
   tags?: string[];
-  user?: number;
+  user?: number | string;
 };

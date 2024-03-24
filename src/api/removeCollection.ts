@@ -5,26 +5,31 @@ import { MutationConfig, queryClient } from "@/lib/react-query";
 
 import { GeneralResponse } from "@/types/api";
 
-type AddCollectionRequest = {
+type RemoveCollectionRequest = {
   userId: number | string;
   bookId: number | string;
 };
 
-export async function addCollection({ userId, bookId }: AddCollectionRequest) {
-  const res = await axios.put<GeneralResponse>(
+export async function removeCollection({
+  userId,
+  bookId,
+}: RemoveCollectionRequest) {
+  const res = await axios.delete<GeneralResponse>(
     `/users/${userId}/book/${bookId}`
   );
 
   return res.data.result!;
 }
 
-type UseAddCollectionOption = {
-  config?: MutationConfig<typeof addCollection>;
+type UseRemoveCollectionOption = {
+  config?: MutationConfig<typeof removeCollection>;
 };
 
-export function useAddCollection({ config }: UseAddCollectionOption = {}) {
+export function useRemoveCollection({
+  config,
+}: UseRemoveCollectionOption = {}) {
   return useMutation({
-    mutationFn: addCollection,
+    mutationFn: removeCollection,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["creds"] });
       queryClient.invalidateQueries({ queryKey: ["books"] });

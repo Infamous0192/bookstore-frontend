@@ -98,7 +98,7 @@ export const Navbar: React.FC = () => {
                             <Menu.Item>
                               {({ active }) => (
                                 <Link
-                                  href="/member"
+                                  href="/collection"
                                   className={`${
                                     active && "bg-slate-100"
                                   } block px-4 py-2 text-sm text-slate-900`}
